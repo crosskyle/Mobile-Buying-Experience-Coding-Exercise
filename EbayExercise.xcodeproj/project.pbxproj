@@ -8,22 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		241DC83C1FFF28DB00896CA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241DC83B1FFF28DB00896CA4 /* AppDelegate.swift */; };
-		241DC83E1FFF28DC00896CA4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241DC83D1FFF28DC00896CA4 /* ViewController.swift */; };
 		241DC8411FFF28DC00896CA4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 241DC83F1FFF28DC00896CA4 /* Main.storyboard */; };
 		241DC8431FFF28DC00896CA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 241DC8421FFF28DC00896CA4 /* Assets.xcassets */; };
 		241DC8461FFF28DC00896CA4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 241DC8441FFF28DC00896CA4 /* LaunchScreen.storyboard */; };
 		241DC8501FFF297400896CA4 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241DC84F1FFF297400896CA4 /* Country.swift */; };
+		241DC8541FFF45D500896CA4 /* CountryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241DC8531FFF45D500896CA4 /* CountryTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		241DC8381FFF28DB00896CA4 /* EbayExercise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EbayExercise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		241DC83B1FFF28DB00896CA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		241DC83D1FFF28DC00896CA4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		241DC8401FFF28DC00896CA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		241DC8421FFF28DC00896CA4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		241DC8451FFF28DC00896CA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		241DC8471FFF28DC00896CA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		241DC84F1FFF297400896CA4 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		241DC8531FFF45D500896CA4 /* CountryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,8 +56,8 @@
 		241DC83A1FFF28DB00896CA4 /* EbayExercise */ = {
 			isa = PBXGroup;
 			children = (
+				241DC8531FFF45D500896CA4 /* CountryTableViewController.swift */,
 				241DC83B1FFF28DB00896CA4 /* AppDelegate.swift */,
-				241DC83D1FFF28DC00896CA4 /* ViewController.swift */,
 				241DC83F1FFF28DC00896CA4 /* Main.storyboard */,
 				241DC8421FFF28DC00896CA4 /* Assets.xcassets */,
 				241DC8441FFF28DC00896CA4 /* LaunchScreen.storyboard */,
@@ -140,8 +140,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				241DC8501FFF297400896CA4 /* Country.swift in Sources */,
-				241DC83E1FFF28DC00896CA4 /* ViewController.swift in Sources */,
 				241DC83C1FFF28DB00896CA4 /* AppDelegate.swift in Sources */,
+				241DC8541FFF45D500896CA4 /* CountryTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
