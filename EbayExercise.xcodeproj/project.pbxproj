@@ -13,6 +13,7 @@
 		241DC8461FFF28DC00896CA4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 241DC8441FFF28DC00896CA4 /* LaunchScreen.storyboard */; };
 		241DC8501FFF297400896CA4 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241DC84F1FFF297400896CA4 /* Country.swift */; };
 		241DC8541FFF45D500896CA4 /* CountryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241DC8531FFF45D500896CA4 /* CountryTableViewController.swift */; };
+		243EF13C1FFFF99D0012BF79 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 243EF13B1FFFF99D0012BF79 /* MapKit.framework */; };
 		24FBA5CB1FFF616100F50D19 /* CountryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FBA5CA1FFF616100F50D19 /* CountryViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		241DC8471FFF28DC00896CA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		241DC84F1FFF297400896CA4 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		241DC8531FFF45D500896CA4 /* CountryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryTableViewController.swift; sourceTree = "<group>"; };
+		243EF13B1FFFF99D0012BF79 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		24FBA5CA1FFF616100F50D19 /* CountryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -33,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				243EF13C1FFFF99D0012BF79 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +47,7 @@
 			children = (
 				241DC83A1FFF28DB00896CA4 /* EbayExercise */,
 				241DC8391FFF28DB00896CA4 /* Products */,
+				243EF13A1FFFF99D0012BF79 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -68,6 +72,14 @@
 				241DC84F1FFF297400896CA4 /* Country.swift */,
 			);
 			path = EbayExercise;
+			sourceTree = "<group>";
+		};
+		243EF13A1FFFF99D0012BF79 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				243EF13B1FFFF99D0012BF79 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -103,6 +115,11 @@
 					241DC8371FFF28DB00896CA4 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
