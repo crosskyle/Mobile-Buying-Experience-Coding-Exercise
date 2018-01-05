@@ -13,6 +13,7 @@
 		241DC8461FFF28DC00896CA4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 241DC8441FFF28DC00896CA4 /* LaunchScreen.storyboard */; };
 		241DC8501FFF297400896CA4 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241DC84F1FFF297400896CA4 /* Country.swift */; };
 		241DC8541FFF45D500896CA4 /* CountryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241DC8531FFF45D500896CA4 /* CountryTableViewController.swift */; };
+		24FBA5CB1FFF616100F50D19 /* CountryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FBA5CA1FFF616100F50D19 /* CountryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		241DC8471FFF28DC00896CA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		241DC84F1FFF297400896CA4 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		241DC8531FFF45D500896CA4 /* CountryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryTableViewController.swift; sourceTree = "<group>"; };
+		24FBA5CA1FFF616100F50D19 /* CountryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				241DC8531FFF45D500896CA4 /* CountryTableViewController.swift */,
 				241DC83B1FFF28DB00896CA4 /* AppDelegate.swift */,
 				241DC83F1FFF28DC00896CA4 /* Main.storyboard */,
+				24FBA5CA1FFF616100F50D19 /* CountryViewController.swift */,
 				241DC8421FFF28DC00896CA4 /* Assets.xcassets */,
 				241DC8441FFF28DC00896CA4 /* LaunchScreen.storyboard */,
 				241DC8471FFF28DC00896CA4 /* Info.plist */,
@@ -140,6 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				241DC8501FFF297400896CA4 /* Country.swift in Sources */,
+				24FBA5CB1FFF616100F50D19 /* CountryViewController.swift in Sources */,
 				241DC83C1FFF28DB00896CA4 /* AppDelegate.swift in Sources */,
 				241DC8541FFF45D500896CA4 /* CountryTableViewController.swift in Sources */,
 			);
