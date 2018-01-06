@@ -13,48 +13,59 @@ class CountryViewController: UIViewController {
     
     var country: Country!
     private let mapView = MKMapView()
-    
+
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
-
-    }
-    
-    override func viewWillLayoutSubviews() {
         addMapView()
-        addLabels()
+        setupViews()
+        setupConstraints()
     }
-    
+
     func addMapView() {
-        let leftMargin:CGFloat = 10
-        let topMargin:CGFloat = UIApplication.shared.statusBarFrame.height + (self.navigationController?.navigationBar.frame.height)! + 10
-        let mapWidth:CGFloat = view.frame.size.width-20
-        let mapHeight:CGFloat = 300
-        
-        mapView.frame = CGRect(x: leftMargin, y: topMargin, width: mapWidth, height: mapHeight)
-        
-        mapView.mapType = MKMapType.standard
-        mapView.isZoomEnabled = true
-        mapView.isScrollEnabled = true
-        
-        
-        // set initial location
+
         let location = CLLocationCoordinate2D(latitude: country.latlng![0], longitude: country.latlng![1])
         let regionRadius: CLLocationDistance = CLLocationDistance(sqrt(Double(country.area!*1000000)))
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location,regionRadius, regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
-        
+
         let annotation = MKPointAnnotation()
         annotation.coordinate = location
         annotation.title = country.name!
         mapView.addAnnotation(annotation)
         
+        mapView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(mapView)
     }
     
-    func addLabels() {
-        
+    private func setupViews() {
+
     }
     
+    private func setupConstraints() {
+        
+        let margins = view.layoutMarginsGuide
+        NSLayoutConstraint.activate([
+            mapView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: margins.trailingAnchor)
+            ])
+        
+        if #available(iOS 11, *) {
+            let guide = view.safeAreaLayoutGuide
+            NSLayoutConstraint.activate([
+                mapView.topAnchor.constraintEqualToSystemSpacingBelow(guide.topAnchor, multiplier: 1.0),
+                guide.bottomAnchor.constraintEqualToSystemSpacingBelow(mapView.bottomAnchor, multiplier: 1.0)
+                ])
+        }
+        else {
+            let standardSpacing: CGFloat = 8.0
+            NSLayoutConstraint.activate([
+                mapView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: standardSpacing),
+                bottomLayoutGuide.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: standardSpacing)
+                ])
+        }
+        
+    }
     
 }
