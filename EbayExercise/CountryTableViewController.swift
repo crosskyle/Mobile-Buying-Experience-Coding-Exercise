@@ -24,15 +24,15 @@ class CountryTableViewController: UITableViewController {
                 }
             }
         })
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
     }
 
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return countries.count
@@ -49,13 +49,11 @@ class CountryTableViewController: UITableViewController {
         
         return cell
     }
-
+    
     
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
         
         if segue.identifier == "showCountry" {
             let countryViewController = segue.destination as! CountryViewController

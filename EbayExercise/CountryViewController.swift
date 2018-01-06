@@ -13,47 +13,54 @@ class CountryViewController: UIViewController {
     
     var country: Country!
     private let mapView = MKMapView()
-    private let nameLabel = UILabel()
-    private let capitalLabel = UILabel()
-    private let flagImage = UIImageView()
     
-    let scrollView: UIScrollView = {
+    
+    private let scrollView: UIScrollView = {
         let v = UIScrollView()
         v.translatesAutoresizingMaskIntoConstraints = false
-        v.backgroundColor = .white
         return v
     }()
     
-    let contentView: UIView = {
+    private let contentView: UIView = {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
+    
+    private let flagImage: UIImageView = {
+        let v = UIImageView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+    
+    private let nameLabel: UILabel = {
+        let v = UILabel()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.numberOfLines = 0
+        return v
+    }()
+    
+    private let capitalLabel: UILabel = {
+        let v = UILabel()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.numberOfLines = 0
+        return v
+    }()
+    
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
         view.addSubview(scrollView)
-        
-        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-        
         scrollView.addSubview(contentView)
         
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0).isActive = true
-        contentView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        contentView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        
-        addMapView()
+        setupMapView()
         setupViews()
-        setupConstraints()
+        setupLayout()
     }
 
-    func addMapView() {
+    func setupMapView() {
         
         let location = CLLocationCoordinate2D(latitude: country.latlng![0], longitude: country.latlng![1])
         let regionRadius: CLLocationDistance = CLLocationDistance(sqrt(Double(country.area!*1000000)))
@@ -71,70 +78,59 @@ class CountryViewController: UIViewController {
     
     private func setupViews() {
 
-        nameLabel.text = country.name ?? ""
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.numberOfLines = 0
-        
-        capitalLabel.text = country.capital ?? ""
-        capitalLabel.translatesAutoresizingMaskIntoConstraints = false
-        capitalLabel.numberOfLines = 0
-        
         flagImage.image = UIImage(named: country.alpha2Code!.lowercased())!
-        flagImage.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(nameLabel)
-        
-        contentView.addSubview(capitalLabel)
+        nameLabel.text = country.name ?? ""
+        capitalLabel.text = country.capital ?? ""
+
         contentView.addSubview(flagImage)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(capitalLabel)
     }
     
-    private func setupConstraints() {
-        
-        mapLayout()
-        labelLayout()
-    }
     
-    private func labelLayout() {
-        
-        let contentGuide = contentView.readableContentGuide
-        nameLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor).isActive = true
-        nameLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor).isActive = true
-        nameLabel.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 0).isActive = true
-        
-        capitalLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor).isActive = true
-        capitalLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor).isActive = true
-        capitalLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8.0).isActive = true
-        //capitalLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0).isActive = true
-        
-//        flagImage.widthAnchor.constraint(equalToConstant: 180).isActive = true
-//        flagImage.heightAnchor.constraint(equalToConstant: 180).isActive = true
-        flagImage.topAnchor.constraint(equalTo: capitalLabel.bottomAnchor, constant: 8.0).isActive = true
-        flagImage.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor).isActive = true
-//        flagImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0).isActive = true
-    }
-    
-    private func mapLayout() {
+    private func setupLayout() {
         
         let margins = contentView.layoutMarginsGuide
+        let contentGuide = contentView.readableContentGuide
+        
+        NSLayoutConstraint.activate([
+            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        
+        NSLayoutConstraint.activate([
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            contentView.rightAnchor.constraint(equalTo: view.rightAnchor)
+            ])
+        
         NSLayoutConstraint.activate([
             mapView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            mapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
+            mapView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.0)
             ])
         
-        // in ios 11 only
-        let guide = contentView.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            mapView.topAnchor.constraintEqualToSystemSpacingBelow(guide.topAnchor, multiplier: 1.0),
+            flagImage.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 8.0),
+            flagImage.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor)
             ])
         
-        let constraint = NSLayoutConstraint(item: mapView,
-                                            attribute: NSLayoutAttribute.height,
-                                            relatedBy: NSLayoutRelation.equal,
-                                            toItem: view,
-                                            attribute: NSLayoutAttribute.height,
-                                            multiplier: 0.5,
-                                            constant: 0)
-        view.addConstraint(constraint)
+        NSLayoutConstraint.activate([
+            nameLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
+            nameLabel.topAnchor.constraint(equalTo: flagImage.bottomAnchor, constant: 8.0)
+            ])
+        
+        NSLayoutConstraint.activate([
+            capitalLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
+            capitalLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
+            capitalLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8.0),
+            capitalLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0)
+            ])
     }
     
 }
