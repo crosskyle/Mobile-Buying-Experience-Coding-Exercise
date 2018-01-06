@@ -34,6 +34,8 @@ class CountryViewController: UIViewController {
     private let flagImageView: UIImageView = {
         let v = UIImageView()
         v.translatesAutoresizingMaskIntoConstraints = false
+        v.layer.borderColor = UIColor.black.cgColor
+        v.layer.borderWidth = 1
         return v
     }()
     
@@ -47,6 +49,15 @@ class CountryViewController: UIViewController {
     }()
     
     private let capitalLabel: UILabel = {
+        let v = UILabel()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.numberOfLines = 0
+        v.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        v.adjustsFontForContentSizeCategory = true
+        return v
+    }()
+    
+    private let populationLabel: UILabel = {
         let v = UILabel()
         v.translatesAutoresizingMaskIntoConstraints = false
         v.numberOfLines = 0
@@ -77,8 +88,6 @@ class CountryViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        view.backgroundColor = #colorLiteral(red: 0.9832366109, green: 0.9773913026, blue: 0.9877297282, alpha: 1)
         
         setupMapView()
         setupViews()
@@ -113,6 +122,14 @@ class CountryViewController: UIViewController {
         
         nameLabel.text = ("Country: \(country.name ?? "")")
         capitalLabel.text = ("Capital: \(country.capital ?? "")")
+        
+        if let populationInt = country.population {
+            populationLabel.text = ("Population: \(String(describing: populationInt))")
+        }
+        else {
+            populationLabel.text = ("Population:")
+        }
+        
         regionLabel.text = ("Region: \(country.region ?? "")")
         subregionLabel.text = ("Subregion: \(country.subregion ?? "")")
     }
@@ -126,6 +143,7 @@ class CountryViewController: UIViewController {
         contentView.addSubview(flagImageView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(capitalLabel)
+        contentView.addSubview(populationLabel)
         contentView.addSubview(regionLabel)
         contentView.addSubview(subregionLabel)
     }
@@ -175,9 +193,15 @@ class CountryViewController: UIViewController {
             ])
         
         NSLayoutConstraint.activate([
+            populationLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
+            populationLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
+            populationLabel.topAnchor.constraint(equalTo: capitalLabel.bottomAnchor, constant: 8.0),
+            ])
+        
+        NSLayoutConstraint.activate([
             regionLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             regionLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
-            regionLabel.topAnchor.constraint(equalTo: capitalLabel.bottomAnchor, constant: 8.0),
+            regionLabel.topAnchor.constraint(equalTo: populationLabel.bottomAnchor, constant: 8.0),
             ])
         
         NSLayoutConstraint.activate([
