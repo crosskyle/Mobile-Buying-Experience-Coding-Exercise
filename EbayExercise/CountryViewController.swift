@@ -15,6 +15,7 @@ class CountryViewController: UIViewController {
     private let mapView = MKMapView()
     private let nameLabel = UILabel()
     private let capitalLabel = UILabel()
+    private let flagImage = UIImageView()
     
     let scrollView: UIScrollView = {
         let v = UIScrollView()
@@ -78,8 +79,13 @@ class CountryViewController: UIViewController {
         capitalLabel.translatesAutoresizingMaskIntoConstraints = false
         capitalLabel.numberOfLines = 0
         
+        flagImage.image = UIImage(named: country.alpha2Code!.lowercased())!
+        flagImage.translatesAutoresizingMaskIntoConstraints = false
+        
         contentView.addSubview(nameLabel)
+        
         contentView.addSubview(capitalLabel)
+        contentView.addSubview(flagImage)
     }
     
     private func setupConstraints() {
@@ -98,7 +104,13 @@ class CountryViewController: UIViewController {
         capitalLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor).isActive = true
         capitalLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor).isActive = true
         capitalLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8.0).isActive = true
-        capitalLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0).isActive = true
+        //capitalLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0).isActive = true
+        
+//        flagImage.widthAnchor.constraint(equalToConstant: 180).isActive = true
+//        flagImage.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        flagImage.topAnchor.constraint(equalTo: capitalLabel.bottomAnchor, constant: 8.0).isActive = true
+        flagImage.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor).isActive = true
+//        flagImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0).isActive = true
     }
     
     private func mapLayout() {
