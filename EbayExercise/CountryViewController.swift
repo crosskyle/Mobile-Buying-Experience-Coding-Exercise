@@ -16,10 +16,36 @@ class CountryViewController: UIViewController {
     private let nameLabel = UILabel()
     private let capitalLabel = UILabel()
     
+    let scrollView: UIScrollView = {
+        let v = UIScrollView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = .white
+        return v
+    }()
+    
+    let contentView: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        view.addSubview(scrollView)
+        
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        
+        scrollView.addSubview(contentView)
+        
+        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0).isActive = true
+        contentView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        contentView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         
         addMapView()
         setupViews()
@@ -27,7 +53,7 @@ class CountryViewController: UIViewController {
     }
 
     func addMapView() {
-
+        
         let location = CLLocationCoordinate2D(latitude: country.latlng![0], longitude: country.latlng![1])
         let regionRadius: CLLocationDistance = CLLocationDistance(sqrt(Double(country.area!*1000000)))
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location,regionRadius, regionRadius)
@@ -39,25 +65,21 @@ class CountryViewController: UIViewController {
         mapView.addAnnotation(annotation)
         
         mapView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(mapView)
+        contentView.addSubview(mapView)
     }
     
     private func setupViews() {
 
-        if let name = country.name {
-            nameLabel.text = name
-        }
+        nameLabel.text = country.name ?? ""
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.numberOfLines = 0
         
-        if let capital = country.capital {
-            capitalLabel.text = capital
-        }
+        capitalLabel.text = country.capital ?? ""
         capitalLabel.translatesAutoresizingMaskIntoConstraints = false
         capitalLabel.numberOfLines = 0
         
-        view.addSubview(nameLabel)
-        view.addSubview(capitalLabel)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(capitalLabel)
     }
     
     private func setupConstraints() {
@@ -68,44 +90,39 @@ class CountryViewController: UIViewController {
     
     private func labelLayout() {
         
-        let contentGuide = view.readableContentGuide
+        let contentGuide = contentView.readableContentGuide
         nameLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor).isActive = true
-        nameLabel.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 8.0).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 0).isActive = true
         
         capitalLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor).isActive = true
         capitalLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor).isActive = true
         capitalLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8.0).isActive = true
+        capitalLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0).isActive = true
     }
     
     private func mapLayout() {
         
-        let margins = view.layoutMarginsGuide
+        let margins = contentView.layoutMarginsGuide
         NSLayoutConstraint.activate([
             mapView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
             ])
         
-        if #available(iOS 11, *) {
-            let guide = view.safeAreaLayoutGuide
-            NSLayoutConstraint.activate([
-                mapView.topAnchor.constraintEqualToSystemSpacingBelow(guide.topAnchor, multiplier: 1.0),
-                ])
-            
-        }
-        else {
-            //for not available in below 11.0
-        }
+        // in ios 11 only
+        let guide = contentView.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            mapView.topAnchor.constraintEqualToSystemSpacingBelow(guide.topAnchor, multiplier: 1.0),
+            ])
         
         let constraint = NSLayoutConstraint(item: mapView,
                                             attribute: NSLayoutAttribute.height,
                                             relatedBy: NSLayoutRelation.equal,
-                                            toItem: self.view,
+                                            toItem: view,
                                             attribute: NSLayoutAttribute.height,
                                             multiplier: 0.5,
                                             constant: 0)
-        
-        self.view.addConstraint(constraint)
+        view.addConstraint(constraint)
     }
     
 }
