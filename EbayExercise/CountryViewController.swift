@@ -12,7 +12,12 @@ import MapKit
 class CountryViewController: UIViewController {
     
     var country: Country!
-    private let mapView = MKMapView()
+    
+    private let mapView: MKMapView = {
+        let v = MKMapView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
     
     private let scrollView: UIScrollView = {
         let v = UIScrollView()
@@ -26,7 +31,7 @@ class CountryViewController: UIViewController {
         return v
     }()
     
-    private let flagImage: UIImageView = {
+    private let flagImageView: UIImageView = {
         let v = UIImageView()
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -50,23 +55,45 @@ class CountryViewController: UIViewController {
         return v
     }()
     
+    private let regionLabel: UILabel = {
+        let v = UILabel()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.numberOfLines = 0
+        v.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        v.adjustsFontForContentSizeCategory = true
+        return v
+    }()
     
+    private let subregionLabel: UILabel = {
+        let v = UILabel()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.numberOfLines = 0
+        v.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        v.adjustsFontForContentSizeCategory = true
+        return v
+    }()
+    
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
+        view.backgroundColor = #colorLiteral(red: 0.9832366109, green: 0.9773913026, blue: 0.9877297282, alpha: 1)
         
         setupMapView()
         setupViews()
+        addViews()
         setupLayout()
     }
 
-    func setupMapView() {
+    
+    private func setupMapView() {
         
-        let location = CLLocationCoordinate2D(latitude: country.latlng![0], longitude: country.latlng![1])
-        let regionRadius: CLLocationDistance = CLLocationDistance(sqrt(Double(country.area!*1000000)))
+        guard let latlng = country.latlng else {return}
+        guard let area = country.area else {return}
+        
+        let location = CLLocationCoordinate2D(latitude: latlng[0], longitude: latlng[1])
+        let regionRadius: CLLocationDistance = CLLocationDistance(sqrt(area*1000000))
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
 
@@ -74,20 +101,33 @@ class CountryViewController: UIViewController {
         annotation.coordinate = location
         annotation.title = country.name!
         mapView.addAnnotation(annotation)
-        
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(mapView)
     }
+    
     
     private func setupViews() {
 
-        flagImage.image = UIImage(named: country.alpha2Code!.lowercased())!
-        nameLabel.text = country.name ?? ""
-        capitalLabel.text = country.capital ?? ""
-
-        contentView.addSubview(flagImage)
+        if let countryCode = country.alpha2Code,
+            let image = UIImage(named: countryCode.lowercased()) {
+            flagImageView.image = image
+        }
+        
+        nameLabel.text = ("Country: \(country.name ?? "")")
+        capitalLabel.text = ("Capital: \(country.capital ?? "")")
+        regionLabel.text = ("Region: \(country.region ?? "")")
+        subregionLabel.text = ("Subregion: \(country.subregion ?? "")")
+    }
+    
+    
+    private func addViews() {
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(mapView)
+        contentView.addSubview(flagImageView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(capitalLabel)
+        contentView.addSubview(regionLabel)
+        contentView.addSubview(subregionLabel)
     }
     
     
@@ -118,21 +158,33 @@ class CountryViewController: UIViewController {
             ])
         
         NSLayoutConstraint.activate([
-            flagImage.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 8.0),
-            flagImage.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor)
+            flagImageView.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 8.0),
+            flagImageView.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor)
             ])
         
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             nameLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
-            nameLabel.topAnchor.constraint(equalTo: flagImage.bottomAnchor, constant: 8.0)
+            nameLabel.topAnchor.constraint(equalTo: flagImageView.bottomAnchor, constant: 8.0)
             ])
         
         NSLayoutConstraint.activate([
             capitalLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             capitalLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
             capitalLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8.0),
-            capitalLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0)
+            ])
+        
+        NSLayoutConstraint.activate([
+            regionLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
+            regionLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
+            regionLabel.topAnchor.constraint(equalTo: capitalLabel.bottomAnchor, constant: 8.0),
+            ])
+        
+        NSLayoutConstraint.activate([
+            subregionLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
+            subregionLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
+            subregionLabel.topAnchor.constraint(equalTo: regionLabel.bottomAnchor, constant: 8.0),
+            subregionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0)
             ])
     }
     
