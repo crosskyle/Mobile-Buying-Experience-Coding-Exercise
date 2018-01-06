@@ -21,8 +21,8 @@ struct Country {
     let population: Int?
     let latlng: [Double]?
     let demonym: String?
-    let area: Int?
-    let gini: Float?
+    let area: Double?
+    let gini: Double?
     let timezones: [String]?
     let borders: [String]?
     let nativeName: String?
@@ -72,8 +72,8 @@ extension Country {
         self.population = json[PropertyKey.population] as? Int
         self.latlng = json[PropertyKey.latlng] as? [Double]
         self.demonym = json[PropertyKey.demonym] as? String
-        self.area = json[PropertyKey.area] as? Int
-        self.gini = json[PropertyKey.gini] as? Float
+        self.area = json[PropertyKey.area] as? Double
+        self.gini = json[PropertyKey.gini] as? Double
         self.timezones = json[PropertyKey.timezones] as? [String]
         self.borders = json[PropertyKey.borders] as? [String]
         self.nativeName = json[PropertyKey.nativeName] as? String
