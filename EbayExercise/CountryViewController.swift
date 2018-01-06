@@ -14,7 +14,6 @@ class CountryViewController: UIViewController {
     var country: Country!
     private let mapView = MKMapView()
     
-    
     private let scrollView: UIScrollView = {
         let v = UIScrollView()
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -37,6 +36,8 @@ class CountryViewController: UIViewController {
         let v = UILabel()
         v.translatesAutoresizingMaskIntoConstraints = false
         v.numberOfLines = 0
+        v.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        v.adjustsFontForContentSizeCategory = true
         return v
     }()
     
@@ -44,6 +45,8 @@ class CountryViewController: UIViewController {
         let v = UILabel()
         v.translatesAutoresizingMaskIntoConstraints = false
         v.numberOfLines = 0
+        v.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        v.adjustsFontForContentSizeCategory = true
         return v
     }()
     
@@ -64,7 +67,7 @@ class CountryViewController: UIViewController {
         
         let location = CLLocationCoordinate2D(latitude: country.latlng![0], longitude: country.latlng![1])
         let regionRadius: CLLocationDistance = CLLocationDistance(sqrt(Double(country.area!*1000000)))
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location,regionRadius, regionRadius)
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
 
         let annotation = MKPointAnnotation()

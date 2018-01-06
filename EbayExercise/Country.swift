@@ -87,13 +87,13 @@ extension Country {
 
 extension Country {
     static func fetchCountriesInfo(completion: @escaping ([Country]?) -> Void) {
-        let url = URL(string: "https://restcountries-v1.p.mashape.com/all")!
+        guard let url = URL(string: "https://restcountries-v1.p.mashape.com/all") else {return}
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("1IosQYQKu0mshuIZjcqiIXbiLGJSp1dBB9Yjsnfd2aISWLA7Yk", forHTTPHeaderField: "X-Mashape-Key")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             var countries: [Country] = []
             
             if let data = data,
@@ -109,7 +109,7 @@ extension Country {
             else {
                 completion(nil)
             }
-        }
-        task.resume()
+            
+        }.resume()
     }
 }
