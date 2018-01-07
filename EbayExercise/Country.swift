@@ -8,6 +8,9 @@
 
 import Foundation
 
+/**
+ Country properties and types match JSON keys and values from API call response in `fetchCountries`.
+ */
 struct Country: Decodable {
     let name: String?
     let topLevelDomain: [String]?
@@ -34,7 +37,12 @@ struct Country: Decodable {
 }
 
 extension Country {
-    static func fetchCountriesInfo(completion: @escaping ([Country]?) -> Void) {
+    /**
+     List of all countries and their corresponding data is fetched with GET request.
+     Successful response executes completion handler with a list of countries optional parameter.
+     Unsuccessful response executes a completion handler with a nil parameter.
+    */
+    static func fetchCountries(completion: @escaping ([Country]?) -> Void) {
         guard let url = URL(string: "https://restcountries-v1.p.mashape.com/all")
             else { completion(nil); return }
         

@@ -11,17 +11,23 @@ import UIKit
 class CountryTableViewController: UITableViewController {
     var countries: [Country] = []
     
+    // MARK: - Lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getCountryData()
+        fetchCountries()
     }
     
-    private func getCountryData() {
+    // MARK: - Update UI
+    
+    /**
+     List of countries is fetched and loaded in a table view in the main thread.
+    */
+    private func fetchCountries() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        // A list of countries are fetched and loaded in a table view in the main thread
-        Country.fetchCountriesInfo(completion: { countries in
+        Country.fetchCountries(completion: { countries in
             if let countries = countries {
                 self.countries = countries
                 
@@ -60,7 +66,7 @@ class CountryTableViewController: UITableViewController {
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // A country's data is passed to the detail view
+        // Country data is passed to the detail view.
         if segue.identifier == "showCountry" {
             let countryViewController = segue.destination as! CountryViewController
             let indexPath = tableView.indexPathForSelectedRow!
