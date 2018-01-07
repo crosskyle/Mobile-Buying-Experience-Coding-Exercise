@@ -119,9 +119,10 @@ class CountryViewController: UIViewController {
             let image = UIImage(named: countryCode.lowercased()) {
             flagImageView.image = image
         }
-        
+
         nameLabel.text = ("Country: \(country.name ?? "")")
         capitalLabel.text = ("Capital: \(country.capital ?? "")")
+        
         
         if let populationInt = country.population {
             populationLabel.text = ("Population: \(String(describing: populationInt))")
