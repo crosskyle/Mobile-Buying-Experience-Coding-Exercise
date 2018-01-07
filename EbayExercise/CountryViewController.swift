@@ -13,6 +13,8 @@ class CountryViewController: UIViewController {
     
     var country: Country!
     
+    // MARK: - Set view properties
+    
     private let mapView: MKMapView = {
         let v = MKMapView()
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +86,8 @@ class CountryViewController: UIViewController {
         return v
     }()
     
-
+    // MARK: - Lifecycle methods
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -95,6 +98,7 @@ class CountryViewController: UIViewController {
         setupLayout()
     }
 
+    // MARK: - Setup views
     
     private func setupMapView() {
         
@@ -113,8 +117,8 @@ class CountryViewController: UIViewController {
     }
     
     
-    private func setupViews() {
-
+    private func setupViews()
+    {
         if let countryCode = country.alpha2Code,
             let image = UIImage(named: countryCode.lowercased()) {
             flagImageView.image = image
@@ -124,8 +128,8 @@ class CountryViewController: UIViewController {
         capitalLabel.text = ("Capital: \(country.capital ?? "")")
         
         
-        if let populationInt = country.population {
-            populationLabel.text = ("Population: \(String(describing: populationInt))")
+        if let population = country.population {
+            populationLabel.text = ("Population: \(String(describing: population))")
         }
         else {
             populationLabel.text = ("Population:")
@@ -136,8 +140,12 @@ class CountryViewController: UIViewController {
     }
     
     
-    private func addViews() {
-        
+    // Subviews are added. A content view is placed on top of a scroll view in order
+    // to prevent horizontal scrolling. All views with content are added to the content
+    // view.
+    
+    private func addViews()
+    {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(mapView)
@@ -150,11 +158,14 @@ class CountryViewController: UIViewController {
     }
     
     
-    private func setupLayout() {
-        
-        let margins = contentView.layoutMarginsGuide
+    // Contraints are added for each of the subviews.
+    
+    private func setupLayout()
+    {
+        let marginGuide = contentView.layoutMarginsGuide
         let contentGuide = contentView.readableContentGuide
         
+        // The scroll view is pinned to all view edges so that the whole view is scrollable
         NSLayoutConstraint.activate([
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -162,6 +173,8 @@ class CountryViewController: UIViewController {
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
         
+        // The content view's top and bottom anchors are pinned to the scroll
+        // view to allow for only vertical scrolling.
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
@@ -169,16 +182,20 @@ class CountryViewController: UIViewController {
             contentView.rightAnchor.constraint(equalTo: view.rightAnchor)
             ])
         
+        // The map view's height anchor is constrained to half the height of the view
+        // to allow for space for other views.
         NSLayoutConstraint.activate([
-            mapView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
-            mapView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            mapView.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
             mapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
             mapView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.0)
             ])
         
+        
+        // The flag image view is only pinned to the leading anchor so that the image ratio is correct.
         NSLayoutConstraint.activate([
             flagImageView.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 8.0),
-            flagImageView.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor)
+            flagImageView.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             ])
         
         NSLayoutConstraint.activate([
@@ -205,6 +222,7 @@ class CountryViewController: UIViewController {
             regionLabel.topAnchor.constraint(equalTo: populationLabel.bottomAnchor, constant: 8.0),
             ])
         
+        // The final view must be constrained to the content view's bottom to allow for scrolling.
         NSLayoutConstraint.activate([
             subregionLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             subregionLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),

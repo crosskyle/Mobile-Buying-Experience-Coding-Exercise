@@ -12,6 +12,8 @@ class CountryTableViewController: UITableViewController {
     
     var countries: [Country] = []
 
+    // MARK: - Lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
