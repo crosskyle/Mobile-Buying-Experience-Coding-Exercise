@@ -10,7 +10,6 @@ import UIKit
 import MapKit
 
 class CountryViewController: UIViewController {
-    
     var country: Country!
     
     // MARK: - Set view properties
@@ -99,7 +98,6 @@ class CountryViewController: UIViewController {
     // MARK: - Lifecycle methods
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         
         setupMapView()
@@ -112,7 +110,6 @@ class CountryViewController: UIViewController {
     // MARK: - Setup view content
     
     private func setupMapView() {
-        
         guard let latlng = country.latlng else {return}
         guard let area = country.area else {return}
         
@@ -130,9 +127,7 @@ class CountryViewController: UIViewController {
         mapView.addAnnotation(annotation)
     }
     
-    
     private func setupImageView() {
-        
         // The country code string must be set to lowercase to correspond with image assets.
         if let countryCode = country.alpha2Code,
             let image = UIImage(named: countryCode.lowercased()) {
@@ -140,14 +135,11 @@ class CountryViewController: UIViewController {
         }
     }
     
-    
     private func setupLabelViews() {
-        
         // Population value must be cast to String from a Double type
         if let population = country.population {
             populationLabel.text = ("Population: \(String(describing: population))")
-        }
-        else {
+        } else {
             populationLabel.text = ("Population:")
         }
 
@@ -158,7 +150,6 @@ class CountryViewController: UIViewController {
         subregionLabel.text = ("Subregion: \(country.subregion ?? "")")
     }
     
-    
     // MARK: - Setup view layout
     
     // Subviews are added. A content view is placed on top of a scroll view in order
@@ -166,7 +157,6 @@ class CountryViewController: UIViewController {
     // view.
     
     private func addViews() {
-        
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(mapView)
@@ -178,11 +168,9 @@ class CountryViewController: UIViewController {
         contentView.addSubview(subregionLabel)
     }
     
-    
     // Contraints are added for each of the subviews.
     
     private func setupLayout() {
-        
         let marginGuide = contentView.layoutMarginsGuide
         let contentGuide = contentView.readableContentGuide
         
@@ -211,7 +199,6 @@ class CountryViewController: UIViewController {
             mapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
             mapView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.0)
             ])
-        
         
         // The flag image view is only pinned to the leading anchor so that the image ratio is correct.
         NSLayoutConstraint.activate([
@@ -251,5 +238,4 @@ class CountryViewController: UIViewController {
             subregionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0)
             ])
     }
-    
 }

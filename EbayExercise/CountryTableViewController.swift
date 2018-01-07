@@ -9,29 +9,35 @@
 import UIKit
 
 class CountryTableViewController: UITableViewController {
-    
     var countries: [Country] = []
-    
-    // MARK: - Lifecycle methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getCountryData()
+    }
+    
+    private func getCountryData() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         // A list of countries are fetched and loaded in a table view in the main thread
         Country.fetchCountriesInfo(completion: { countries in
             if let countries = countries {
                 self.countries = countries
-            
+                
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
             }
+            
+            DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
         })
     }
 
-    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -41,7 +47,7 @@ class CountryTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "countryCell", for: indexPath)
 
         // Text in each cell is set to each country name.
         if let name = countries[indexPath.row].name {
@@ -51,11 +57,9 @@ class CountryTableViewController: UITableViewController {
         return cell
     }
     
-    
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         // A country's data is passed to the detail view
         if segue.identifier == "showCountry" {
             let countryViewController = segue.destination as! CountryViewController
@@ -64,5 +68,4 @@ class CountryTableViewController: UITableViewController {
             countryViewController.country = selectedCountry
         }
     }
-
 }
