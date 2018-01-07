@@ -11,16 +11,17 @@ import UIKit
 class CountryTableViewController: UITableViewController {
     
     var countries: [Country] = []
-
+    
     // MARK: - Lifecycle methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // A list of countries are fetched and loaded in a table view in the main thread
         Country.fetchCountriesInfo(completion: { countries in
             if let countries = countries {
                 self.countries = countries
-                
+            
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -35,16 +36,14 @@ class CountryTableViewController: UITableViewController {
         return 1
     }
     
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return countries.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell", for: indexPath)
 
-        // Configure the cell...
+        // Text in each cell is set to each country name.
         if let name = countries[indexPath.row].name {
             cell.textLabel?.text = name
         }
@@ -57,6 +56,7 @@ class CountryTableViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        // A country's data is passed to the detail view
         if segue.identifier == "showCountry" {
             let countryViewController = segue.destination as! CountryViewController
             let indexPath = tableView.indexPathForSelectedRow!

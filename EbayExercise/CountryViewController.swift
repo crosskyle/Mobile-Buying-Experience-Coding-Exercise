@@ -15,6 +15,9 @@ class CountryViewController: UIViewController {
     
     // MARK: - Set view properties
     
+    // All views have translatesAutoresizingMaskIntoConstraints set to false
+    // to all allow for auto layout.
+    
     private let mapView: MKMapView = {
         let v = MKMapView()
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -33,6 +36,9 @@ class CountryViewController: UIViewController {
         return v
     }()
     
+    // An image border is created to differentiate white flags from a
+    // white background.
+    
     private let flagImageView: UIImageView = {
         let v = UIImageView()
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -40,6 +46,10 @@ class CountryViewController: UIViewController {
         v.layer.borderWidth = 1
         return v
     }()
+    
+    // Number of lines are set to 0 so that labels can expand.
+    // Font is set to preferred font and adjusted for content size to give
+    // users the ability to make font size accessible.
     
     private let nameLabel: UILabel = {
         let v = UILabel()
@@ -93,59 +103,70 @@ class CountryViewController: UIViewController {
         super.viewDidLoad()
         
         setupMapView()
-        setupViews()
+        setupImageView()
+        setupLabelViews()
         addViews()
         setupLayout()
     }
 
-    // MARK: - Setup views
+    // MARK: - Setup view content
     
     private func setupMapView() {
         
         guard let latlng = country.latlng else {return}
         guard let area = country.area else {return}
         
+        // A map region is set to a radius that corresponds to the postion and general size of the country.
         let location = CLLocationCoordinate2D(latitude: latlng[0], longitude: latlng[1])
-        let regionRadius: CLLocationDistance = CLLocationDistance(sqrt(area*1000000))
+        let radius = sqrt(area * 1000000)
+        let regionRadius: CLLocationDistance = CLLocationDistance(radius)
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
 
+        // A map annotation is added to show selected country's name.
         let annotation = MKPointAnnotation()
         annotation.coordinate = location
-        annotation.title = country.name!
+        annotation.title = country.name ?? ""
         mapView.addAnnotation(annotation)
     }
     
     
-    private func setupViews()
-    {
+    private func setupImageView() {
+        
+        // The country code string must be set to lowercase to correspond with image assets.
         if let countryCode = country.alpha2Code,
             let image = UIImage(named: countryCode.lowercased()) {
             flagImageView.image = image
         }
-
-        nameLabel.text = ("Country: \(country.name ?? "")")
-        capitalLabel.text = ("Capital: \(country.capital ?? "")")
+    }
+    
+    
+    private func setupLabelViews() {
         
-        
+        // Population value must be cast to String from a Double type
         if let population = country.population {
             populationLabel.text = ("Population: \(String(describing: population))")
         }
         else {
             populationLabel.text = ("Population:")
         }
-        
+
+        // Labels are assigned empty string when values are nil
+        nameLabel.text = ("Country: \(country.name ?? "")")
+        capitalLabel.text = ("Capital: \(country.capital ?? "")")
         regionLabel.text = ("Region: \(country.region ?? "")")
         subregionLabel.text = ("Subregion: \(country.subregion ?? "")")
     }
     
     
+    // MARK: - Setup view layout
+    
     // Subviews are added. A content view is placed on top of a scroll view in order
     // to prevent horizontal scrolling. All views with content are added to the content
     // view.
     
-    private func addViews()
-    {
+    private func addViews() {
+        
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(mapView)
@@ -160,8 +181,8 @@ class CountryViewController: UIViewController {
     
     // Contraints are added for each of the subviews.
     
-    private func setupLayout()
-    {
+    private func setupLayout() {
+        
         let marginGuide = contentView.layoutMarginsGuide
         let contentGuide = contentView.readableContentGuide
         
