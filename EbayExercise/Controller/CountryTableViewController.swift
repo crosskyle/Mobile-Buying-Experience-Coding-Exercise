@@ -70,10 +70,11 @@ class CountryTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Country data is passed to the detail view.
         if segue.identifier == "showCountry" {
-            let countryViewController = segue.destination as! CountryViewController
-            let indexPath = tableView.indexPathForSelectedRow!
-            let selectedCountry = countries[indexPath.row]
-            countryViewController.country = selectedCountry
+            if let countryViewController = segue.destination as? CountryViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                let selectedCountry = countries[indexPath.row]
+                countryViewController.country = selectedCountry
+            }
         }
     }
 }
