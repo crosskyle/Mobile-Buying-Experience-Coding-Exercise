@@ -208,71 +208,44 @@ class CountryViewController: UIViewController {
         let contentGuide = contentView.readableContentGuide
         
         // `scrollView` is pinned to all `view` edges to make whole view scrollable.
+        // `contentView` top and bottom anchors are pinned to `scrollView` to limit scrolling to vertically only.
+        // `mapView` height anchor is constrained to half the height of `view` to allow space for other views.
+        // `flagImageView` is only pinned to the leading anchor so that the image ratio is correct.
+        // Last view must be constrained to `contentView` bottom to allow for scrolling.
         NSLayoutConstraint.activate([
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-        
-        // `contentView` top and bottom anchors are pinned to `scrollView` to limit scrolling to vertically only.
-        NSLayoutConstraint.activate([
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            contentView.rightAnchor.constraint(equalTo: view.rightAnchor)
-            ])
-        
-        // `mapView` height anchor is constrained to half the height of `view` to allow space for other views.
-        NSLayoutConstraint.activate([
+            contentView.rightAnchor.constraint(equalTo: view.rightAnchor),
             mapView.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
             mapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
-            mapView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.0)
-            ])
-        
-        // `flagImageView` is only pinned to the leading anchor so that the image ratio is correct.
-        NSLayoutConstraint.activate([
+            mapView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.0),
             flagImageView.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 8.0),
             flagImageView.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
-            ])
-        
-        NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             nameLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
-            nameLabel.topAnchor.constraint(equalTo: flagImageView.bottomAnchor, constant: 8.0)
-            ])
-        
-        NSLayoutConstraint.activate([
+            nameLabel.topAnchor.constraint(equalTo: flagImageView.bottomAnchor, constant: 8.0),
             alternativeNamesLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             alternativeNamesLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
-            alternativeNamesLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8.0)
-            ])
-        
-        NSLayoutConstraint.activate([
+            alternativeNamesLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8.0),
             capitalLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             capitalLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
             capitalLabel.topAnchor.constraint(equalTo: alternativeNamesLabel.bottomAnchor, constant: 8.0),
-            ])
-        
-        NSLayoutConstraint.activate([
             populationLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             populationLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
             populationLabel.topAnchor.constraint(equalTo: capitalLabel.bottomAnchor, constant: 8.0),
-            ])
-        
-        NSLayoutConstraint.activate([
             regionLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             regionLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
             regionLabel.topAnchor.constraint(equalTo: populationLabel.bottomAnchor, constant: 8.0),
-            ])
-        
-        // Last view must be constrained to `contentView` bottom to allow for scrolling.
-        NSLayoutConstraint.activate([
             subregionLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             subregionLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
             subregionLabel.topAnchor.constraint(equalTo: regionLabel.bottomAnchor, constant: 8.0),
-            subregionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0)
+            subregionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0),
             ])
     }
 }
