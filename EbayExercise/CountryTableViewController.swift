@@ -22,7 +22,7 @@ class CountryTableViewController: UITableViewController {
     // MARK: - Update UI
     
     /**
-     List of countries is fetched and loaded in a table view in the main thread.
+     List of countries is fetched and loaded in `tableView` on the main thread.
     */
     private func fetchCountries() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
@@ -35,7 +35,6 @@ class CountryTableViewController: UITableViewController {
                     self.tableView.reloadData()
                 }
             }
-            
             DispatchQueue.main.async {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
@@ -59,7 +58,6 @@ class CountryTableViewController: UITableViewController {
         if let name = countries[indexPath.row].name {
             cell.textLabel?.text = name
         }
-        
         return cell
     }
     

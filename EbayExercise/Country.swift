@@ -52,14 +52,19 @@ extension Country {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data else { completion(nil); return }
-            
-            do {
-                let countries = try JSONDecoder().decode([Country].self, from: data)
-                completion(countries)
-            }
-            catch let jsonError {
-                print(jsonError)
+            if let data = data {
+                do {
+                    let countries = try JSONDecoder().decode([Country].self, from: data)
+                    completion(countries)
+                }
+                catch let jsonError {
+                    print(jsonError)
+                    completion(nil)
+                }
+            } else {
+                if let error = error {
+                    print(error)
+                }
                 completion(nil)
             }
         }.resume()

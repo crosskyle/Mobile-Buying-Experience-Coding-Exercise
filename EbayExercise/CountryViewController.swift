@@ -12,83 +12,82 @@ import MapKit
 class CountryViewController: UIViewController {
     var country: Country?
     
-    // MARK: - Initialize views and set properties
+    // MARK: - Initialize views and set view properties
     
-    // All views have translatesAutoresizingMaskIntoConstraints set to false
-    // to all allow for auto layout.
+    // All views have translatesAutoresizingMaskIntoConstraints set to false to allow for auto layout.
     private let mapView: MKMapView = {
-        let v = MKMapView()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        return v
+        let mapView = MKMapView()
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        return mapView
     }()
     
     private let scrollView: UIScrollView = {
-        let v = UIScrollView()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        return v
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
     }()
     
     private let contentView: UIView = {
-        let v = UIView()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        return v
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     // Image border is created to differentiate white flags from a white background.
     private let flagImageView: UIImageView = {
-        let v = UIImageView()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.layer.borderColor = UIColor.black.cgColor
-        v.layer.borderWidth = 1
-        return v
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.borderColor = UIColor.black.cgColor
+        imageView.layer.borderWidth = 1
+        return imageView
     }()
     
     // Number of lines are set to 0 so that labels can expand.
     // Font is set to preferred font and adjusted for content size to give
     // users the ability to make font size accessible.
     private let nameLabel: UILabel = {
-        let v = UILabel()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.numberOfLines = 0
-        v.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
-        v.adjustsFontForContentSizeCategory = true
-        return v
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        label.adjustsFontForContentSizeCategory = true
+        return label
     }()
     
     private let capitalLabel: UILabel = {
-        let v = UILabel()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.numberOfLines = 0
-        v.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
-        v.adjustsFontForContentSizeCategory = true
-        return v
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        label.adjustsFontForContentSizeCategory = true
+        return label
     }()
     
     private let populationLabel: UILabel = {
-        let v = UILabel()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.numberOfLines = 0
-        v.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
-        v.adjustsFontForContentSizeCategory = true
-        return v
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        label.adjustsFontForContentSizeCategory = true
+        return label
     }()
     
     private let regionLabel: UILabel = {
-        let v = UILabel()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.numberOfLines = 0
-        v.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
-        v.adjustsFontForContentSizeCategory = true
-        return v
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        label.adjustsFontForContentSizeCategory = true
+        return label
     }()
     
     private let subregionLabel: UILabel = {
-        let v = UILabel()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.numberOfLines = 0
-        v.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
-        v.adjustsFontForContentSizeCategory = true
-        return v
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        label.adjustsFontForContentSizeCategory = true
+        return label
     }()
     
     // MARK: - Lifecycle methods
@@ -99,7 +98,7 @@ class CountryViewController: UIViewController {
         setupMapView()
         setupFlagImageView()
         setupLabelViews()
-        addViews()
+        addSubviews()
         setupLayout()
     }
 
@@ -111,10 +110,10 @@ class CountryViewController: UIViewController {
     private func setupMapView() {
         guard let latlng = country?.latlng else {return}
         guard let latitude = latlng.first, let longitude = latlng.last else {return}
-        guard let area = country?.area else {return}
         
         // Map region is set to a radius that corresponds to the postion and general size of the country.
         let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let area = country?.area ?? 1000000
         let radius = sqrt(area * 1000000)
         let regionRadius: CLLocationDistance = CLLocationDistance(radius)
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
@@ -143,9 +142,13 @@ class CountryViewController: UIViewController {
      Label text is set with country descriptions.
     */
     private func setupLabelViews() {
-        // Population value must be cast to String from a Double type.
-        if let population = country?.population {
-            populationLabel.text = ("Population: \(String(describing: population))")
+        // Population label text is formatted to a string with commas.
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        
+        if let population = country?.population,
+            let formattedPopulation = numberFormatter.string(from: NSNumber(value:population)) {
+            populationLabel.text = ("Population: \(formattedPopulation)")
         } else {
             populationLabel.text = ("Population:")
         }
@@ -163,7 +166,7 @@ class CountryViewController: UIViewController {
      Subviews are added. `contentView` is placed on top of `scrollView` to prevent
      horizontal scrolling. All views with content are added to `contentView`.
     */
-    private func addViews() {
+    private func addSubviews() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(mapView)
@@ -182,7 +185,7 @@ class CountryViewController: UIViewController {
         let marginGuide = contentView.layoutMarginsGuide
         let contentGuide = contentView.readableContentGuide
         
-        // `scrollView` is pinned to all `view` edges so that the whole view is scrollable.
+        // `scrollView` is pinned to all `view` edges to make whole view scrollable.
         NSLayoutConstraint.activate([
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -190,8 +193,7 @@ class CountryViewController: UIViewController {
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
         
-        // `contentView` top and bottom anchors are pinned to the `scrollView` to
-        // limit scrolling to vertically only.
+        // `contentView` top and bottom anchors are pinned to `scrollView` to limit scrolling to vertically only.
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
