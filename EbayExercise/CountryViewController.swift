@@ -54,6 +54,15 @@ class CountryViewController: UIViewController {
         return label
     }()
     
+    private let alternativeNamesLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+    
     private let capitalLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -153,6 +162,14 @@ class CountryViewController: UIViewController {
             populationLabel.text = ("Population:")
         }
 
+        // Alternative names list is joined with comma separator.
+        if let alternativeNames = country?.altSpellings {
+            let alternativeNamesText = alternativeNames.joined(separator: ", ")
+            alternativeNamesLabel.text = ("Alternative Names: \(alternativeNamesText)")
+        } else {
+            alternativeNamesLabel.text = ("Alternative Names:")
+        }
+        
         // Labels are assigned empty string when values are nil.
         nameLabel.text = ("Country: \(country?.name ?? "")")
         capitalLabel.text = ("Capital: \(country?.capital ?? "")")
@@ -172,6 +189,7 @@ class CountryViewController: UIViewController {
         contentView.addSubview(mapView)
         contentView.addSubview(flagImageView)
         contentView.addSubview(nameLabel)
+        contentView.addSubview(alternativeNamesLabel)
         contentView.addSubview(capitalLabel)
         contentView.addSubview(populationLabel)
         contentView.addSubview(regionLabel)
@@ -222,9 +240,15 @@ class CountryViewController: UIViewController {
             ])
         
         NSLayoutConstraint.activate([
+            alternativeNamesLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
+            alternativeNamesLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
+            alternativeNamesLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8.0)
+            ])
+        
+        NSLayoutConstraint.activate([
             capitalLabel.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             capitalLabel.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
-            capitalLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8.0),
+            capitalLabel.topAnchor.constraint(equalTo: alternativeNamesLabel.bottomAnchor, constant: 8.0),
             ])
         
         NSLayoutConstraint.activate([
