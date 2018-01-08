@@ -9,6 +9,10 @@
 import UIKit
 import MapKit
 
+/**
+ View controller that displays a detailed view of a country including a map view,
+ image of a flag, and information about that country.
+ */
 class CountryViewController: UIViewController {
     var country: Country?
     

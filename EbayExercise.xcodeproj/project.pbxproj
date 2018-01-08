@@ -60,13 +60,12 @@
 		241DC83A1FFF28DB00896CA4 /* EbayExercise */ = {
 			isa = PBXGroup;
 			children = (
-				241DC8531FFF45D500896CA4 /* CountryTableViewController.swift */,
+				24CD6E9720030A6D006C83E9 /* Controller */,
 				241DC83B1FFF28DB00896CA4 /* AppDelegate.swift */,
-				241DC83F1FFF28DC00896CA4 /* Main.storyboard */,
-				24FBA5CA1FFF616100F50D19 /* CountryViewController.swift */,
+				24CD6E9920030A8D006C83E9 /* View */,
 				241DC8421FFF28DC00896CA4 /* Assets.xcassets */,
 				241DC8471FFF28DC00896CA4 /* Info.plist */,
-				241DC84F1FFF297400896CA4 /* Country.swift */,
+				24CD6E9820030A7D006C83E9 /* Model */,
 			);
 			path = EbayExercise;
 			sourceTree = "<group>";
@@ -77,6 +76,31 @@
 				243EF13B1FFFF99D0012BF79 /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		24CD6E9720030A6D006C83E9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				241DC8531FFF45D500896CA4 /* CountryTableViewController.swift */,
+				24FBA5CA1FFF616100F50D19 /* CountryViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		24CD6E9820030A7D006C83E9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				241DC84F1FFF297400896CA4 /* Country.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		24CD6E9920030A8D006C83E9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				241DC83F1FFF28DC00896CA4 /* Main.storyboard */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- Country properties and types match JSON keys and values from API call response in `fetchCountries`.
+ Country properties and types that match JSON keys and values from API call response in `fetchCountries`.
  */
 struct Country: Decodable {
     let name: String?

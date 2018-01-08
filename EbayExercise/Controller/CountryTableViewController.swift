@@ -8,6 +8,10 @@
 
 import UIKit
 
+/**
+ View controller that displays a list of countries and segues to a country detailed view
+ when a user taps on a country.
+ */
 class CountryTableViewController: UITableViewController {
     var countries: [Country] = []
     
