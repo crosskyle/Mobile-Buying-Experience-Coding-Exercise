@@ -138,10 +138,10 @@ class CountryViewController: UIViewController {
     }
     
     /**
-     Finds a location distance that will display a country with proper ratio for `mapView`.
+     Returns location distance that will display a country with proper ratio for `mapView`.
     */
     private func getLocationDistance() -> CLLocationDistance {
-        // Countries that do not scale well with a calculated radius solution are set to a constant radius.
+        // Countries that do not scale well with a calculated distance solution are set to a constant distance.
         let smallDistance = 100000.0, mediumDistance = 250000.0, largeDistance = 500000.0
         
         let smallCountriesWithDistance = [
@@ -156,7 +156,7 @@ class CountryViewController: UIViewController {
         if let name = country?.name, let distance = smallCountriesWithDistance[name] {
             return CLLocationDistance(distance)
         } else {
-            // Radius is calculated for countries where it is appropriate.
+            // Distance is calculated for countries where it is appropriate.
             let area = country?.area ?? 1000000
             let distance = sqrt(area * 2000000)
             return CLLocationDistance(distance)
