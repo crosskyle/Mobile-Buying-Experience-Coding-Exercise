@@ -32,14 +32,11 @@ class CountryTableViewController: UITableViewController {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         Country.fetchCountries(completion: { countries in
-            if let countries = countries {
-                self.countries = countries
-                
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if let countries = countries {
+                    self.countries = countries
                     self.tableView.reloadData()
                 }
-            }
-            DispatchQueue.main.async {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
         })
