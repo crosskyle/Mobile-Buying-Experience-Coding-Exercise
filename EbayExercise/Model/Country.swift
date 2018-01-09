@@ -38,6 +38,16 @@ struct Country: Decodable {
 
 extension Country {
     /**
+     Computed first letter of country name.
+    */
+    var firstLetterOfName: String? {
+        guard let name = self.name else { return nil }
+        return String(name[name.startIndex])
+    }
+}
+
+extension Country {
+    /**
      List of all countries and their corresponding data is fetched with GET request.
      Successful response executes completion handler with a list of countries optional parameter.
      Unsuccessful response executes a completion handler with a nil parameter.
