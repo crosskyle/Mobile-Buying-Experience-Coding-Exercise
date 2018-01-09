@@ -125,20 +125,45 @@ class CountryViewController: UIViewController {
         guard let latitude = latlng.first, let longitude = latlng.last else {return}
         
         // Map region is set to a radius that corresponds to the postion and general size of the country.
-        let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let area = country?.area ?? 1000000
-        let radius = sqrt(area * 1000000)
+        let centerCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let radius = getMapRadius()
         let regionRadius: CLLocationDistance = CLLocationDistance(radius)
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(centerCoordinate, regionRadius, regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
 
         // Annotation is added to show country name.
         let annotation = MKPointAnnotation()
-        annotation.coordinate = location
+        annotation.coordinate = centerCoordinate
         annotation.title = country?.name ?? ""
         mapView.addAnnotation(annotation)
     }
     
+    /**
+     Finds a radius that will display a country with a good ratio for `mapView`.
+    */
+    private func getMapRadius() -> Double {
+        // Countries that do not scale well with a calculated radius solution are set to a constant radius.
+        let smallRadius = 100000.0
+        let mediumRadius = 250000.0
+        let largeRadius = 500000.0
+        let smallIslandCountriesAndRadius = [
+            "American Samoa": largeRadius, "Anguilla": smallRadius, "British Indian Ocean Territory": smallRadius,
+            "Cape Verde": largeRadius, "Cayman Islands": mediumRadius, "Cocos (Keeling) Islands": smallRadius,
+            "Comoros": largeRadius, "Cook Islands": mediumRadius, "Fiji": largeRadius, "Heard Island and McDonald Islands": mediumRadius,
+            "Maldives": mediumRadius, "Marshall Islands": smallRadius, "Saint Barthélemy": mediumRadius,
+            "Saint Helena": smallRadius, "Saint Martin": mediumRadius, "São Tomé and Príncipe": mediumRadius,
+            "Seychelles": smallRadius, "Tokelau": mediumRadius, "Tonga": smallRadius, "Tuvalu": largeRadius
+        ]
+        
+        if let name = country?.name, let radius = smallIslandCountriesAndRadius[name] {
+            return radius
+        } else {
+            // Radius is calculated for countries where it is appropriate.
+            let area = country?.area ?? 1000000
+            let radius = sqrt(area * 2000000)
+            return radius
+        }
+    }
     
     /**
      `flagImageView` is set to country flag.
