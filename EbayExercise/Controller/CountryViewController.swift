@@ -126,9 +126,8 @@ class CountryViewController: UIViewController {
         
         // Map region is set to a radius that corresponds to the postion and general size of the country.
         let centerCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let radius = getMapRadius()
-        let regionRadius: CLLocationDistance = CLLocationDistance(radius)
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(centerCoordinate, regionRadius, regionRadius)
+        let locationDistance = getLocationDistance()
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(centerCoordinate, locationDistance, locationDistance)
         mapView.setRegion(coordinateRegion, animated: true)
 
         // Annotation is added to show country name.
@@ -139,29 +138,28 @@ class CountryViewController: UIViewController {
     }
     
     /**
-     Finds a radius that will display a country with a good ratio for `mapView`.
+     Finds a location distance that will display a country with proper ratio for `mapView`.
     */
-    private func getMapRadius() -> Double {
+    private func getLocationDistance() -> CLLocationDistance {
         // Countries that do not scale well with a calculated radius solution are set to a constant radius.
-        let smallRadius = 100000.0
-        let mediumRadius = 250000.0
-        let largeRadius = 500000.0
-        let smallIslandCountriesAndRadius = [
-            "American Samoa": largeRadius, "Anguilla": smallRadius, "British Indian Ocean Territory": smallRadius,
-            "Cape Verde": largeRadius, "Cayman Islands": mediumRadius, "Cocos (Keeling) Islands": smallRadius,
-            "Comoros": largeRadius, "Cook Islands": mediumRadius, "Fiji": largeRadius, "Heard Island and McDonald Islands": mediumRadius,
-            "Maldives": mediumRadius, "Marshall Islands": smallRadius, "Saint Barthélemy": mediumRadius,
-            "Saint Helena": smallRadius, "Saint Martin": mediumRadius, "São Tomé and Príncipe": mediumRadius,
-            "Seychelles": smallRadius, "Tokelau": mediumRadius, "Tonga": smallRadius, "Tuvalu": largeRadius
+        let smallDistance = 100000.0, mediumDistance = 250000.0, largeDistance = 500000.0
+        
+        let smallCountriesWithDistance = [
+            "American Samoa": largeDistance, "Anguilla": smallDistance, "British Indian Ocean Territory": smallDistance,
+            "Cape Verde": largeDistance, "Cayman Islands": mediumDistance, "Cocos (Keeling) Islands": smallDistance,
+            "Comoros": largeDistance, "Cook Islands": mediumDistance, "Fiji": largeDistance, "Heard Island and McDonald Islands": mediumDistance,
+            "Maldives": mediumDistance, "Marshall Islands": smallDistance, "Saint Barthélemy": mediumDistance,
+            "Saint Helena": smallDistance, "Saint Martin": mediumDistance, "São Tomé and Príncipe": mediumDistance,
+            "Seychelles": smallDistance, "Tokelau": mediumDistance, "Tonga": smallDistance, "Tuvalu": largeDistance
         ]
         
-        if let name = country?.name, let radius = smallIslandCountriesAndRadius[name] {
-            return radius
+        if let name = country?.name, let distance = smallCountriesWithDistance[name] {
+            return CLLocationDistance(distance)
         } else {
             // Radius is calculated for countries where it is appropriate.
             let area = country?.area ?? 1000000
-            let radius = sqrt(area * 2000000)
-            return radius
+            let distance = sqrt(area * 2000000)
+            return CLLocationDistance(distance)
         }
     }
     
