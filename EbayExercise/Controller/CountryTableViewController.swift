@@ -72,6 +72,13 @@ class CountryTableViewController: UITableViewController {
             return countries.filter { country in
                 guard let name = country.name else { return false }
                 
+                if name == "Republic of the Congo" {
+                    return "C" == firstLetter
+                } else if name == "Republic of Ireland" {
+                    return "I" == firstLetter
+                } else if name == "Republic of Macedonia" {
+                    return "M" == firstLetter
+                }
                 return String(name[name.startIndex]) == firstLetter
             }
         }
